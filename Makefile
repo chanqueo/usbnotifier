@@ -2,7 +2,8 @@ TARGET = usbnotifier.exe
 
 CC = i686-pc-mingw32-gcc
 CXX = i686-pc-mingw32-g++
-LINKER = i686-pc-mingw32-g++
+LD = i686-pc-mingw32-g++
+RM = rm -f
 
 QT = /cygdrive/c/Qt/5.2.1
 
@@ -25,9 +26,10 @@ LIBS = -lglu32 -lopengl32 -lgdi32 -luser32 -lmingw32 -lqtmaind \
 SOURCES = main.cpp
 OBJECTS = main.o
 
-first: all
-	@echo $(INCPATH)
-all: Makefile $(TARGET)
+first: $(TARGET)
+
+run: $(TARGET)
+	@./$(TARGET)
 
 .cpp.o:
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o $@ $<
@@ -41,5 +43,8 @@ all: Makefile $(TARGET)
 .c.o:
 	$(CC) -c $(CFLAGS) $(INCPATH) -o $@ $<
 
-$(TARGET): $(OBJECTS)
-	$(LINKER) $(LFLAGS) -o $(TARGET) $(OBJECTS) $(LIBS)
+$(TARGET): $(OBJECTS) Makefile
+	$(LD) $(LFLAGS) -o $@ $(OBJECTS) $(LIBS)
+
+clean:
+	$(RM) $(TARGET) $(OBJECTS)
