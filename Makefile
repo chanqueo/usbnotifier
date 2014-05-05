@@ -39,13 +39,13 @@ run: $(TARGET)
 	@./$(TARGET)
 
 %.o: %.c Makefile
-	$(CC) $(CFLAGS) $(DEFS) -c $< $(INCS) -o $@
+	$(CC) -c $(CFLAGS) $(DEFS) $(INCS) $< -o $@
 
 %.o: %.cpp Makefile
-	$(CXX) $(CXXFLAGS) $(DEFS) -c $< $(INCS) -o $@
+	$(CXX) -c $(CXXFLAGS) $(DEFS) $(INCS) $< -o $@
 
 $(TARGET): $(OBJS)
-	$(LD) $(LDFLAGS) $(OBJS) $(LIBS)-o $@
+	$(LD) $(LDFLAGS) $(OBJS) $(LIBS) -o $@
 
 clean:
 	$(RM) $(OBJS)
