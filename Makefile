@@ -63,7 +63,7 @@ $(TARGET): $(OBJS)
 clean:
 	$(RM) $(OBJS)
 
-allclean:
+allclean: clean
 	$(RM) $(TARGET) .depend
 
 .depend: $(HDRS) $(SRCS)
