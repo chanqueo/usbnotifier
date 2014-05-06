@@ -1,13 +1,8 @@
 TARGET = usbnotifier.exe
 
-CC = i686-pc-mingw32-gcc
-CXX = i686-pc-mingw32-g++
-LD = i686-pc-mingw32-g++
-RM = rm -f
-FIND = find
-DEP = mingw32-gcc -MM
-
 QT = /cygdrive/c/Qt/5.2.1
+
+export PATH:=$(PATH):$(QT)/mingw48_32/bin
 
 INCS = -I$(QT)/mingw48_32/include \
        -I$(QT)/mingw48_32/include/QtWidgets \
@@ -21,17 +16,35 @@ LIBS = -lglu32 -lopengl32 -lgdi32 -luser32 -lmingw32 -lqtmaind \
 DEFS = -DUNICODE -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB \
        -DQT_NEEDS_QMAIN
 
+CC = mingw32-gcc
+CXX = mingw32-g++
+LD = mingw32-g++
+RM = rm -f
+FIND = find
+DEP = mingw32-gcc -MM
+
 CFLAGS = -pipe -fno-keep-inline-dllexport -g -Wall -Wextra
 CXXFLAGS = -pipe -fno-keep-inline-dllexport -g -frtti -Wall -Wextra \
            -fexceptions -mthreads
 LDFLAGS = -Wl,-subsystem,windows -mthreads
 
-NO_OBJS =
-
 HDRS = $(sort $(shell $(FIND) . -name "*.h" | sed s_^./__))
 SRCS = $(sort $(shell $(FIND) . -name "*.c" -o -name "*.cpp"  | sed s_^./__))
 OBJS = $(filter-out $(NO_OBJS), $(basename $(SRCS)))
 OBJS := $(addsuffix .o, $(OBJS))
+
+ifneq ($(V), 1)
+
+ORIG_CC := $(CC)
+CC = @echo CC $<; $(ORIG_CC)
+ORIG_CXX := $(CXX)
+CXX = @echo CXX $<; $(ORIG_CXX)
+ORIG_LD := $(LD)
+LD = @echo LD $@; $(ORIG_LD)
+ORIG_DEP := $(DEP)
+DEP = @echo DEP $@; $(ORIG_DEP)
+
+endif
 
 first: $(TARGET)
 
@@ -45,7 +58,7 @@ run: $(TARGET)
 	$(CXX) -c $(CXXFLAGS) $(DEFS) $(INCS) $< -o $@
 
 $(TARGET): $(OBJS)
-	$(LD) $(LDFLAGS) $(OBJS) $(LIBS) -o $@
+	$(LD) $(LDFLAGS) $^ $(LIBS) -o $@
 
 clean:
 	$(RM) $(OBJS)
@@ -53,7 +66,7 @@ clean:
 allclean:
 	$(RM) $(TARGET) .depend
 
-.depend: $(SRCS) $(HDRS)
+.depend: $(HDRS) $(SRCS)
 	$(DEP) $(CFLAGS) $(DEFS) $(INCS) $^ > $@
 
 ifeq ($(findstring clean, $(MAKECMDGOALS)),)
