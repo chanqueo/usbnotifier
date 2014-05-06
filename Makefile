@@ -2,8 +2,6 @@ TARGET = usbnotifier.exe
 
 QT = /cygdrive/c/Qt/5.2.1
 
-export PATH:=$(PATH):$(QT)/mingw48_32/bin
-
 INCS = -I$(QT)/mingw48_32/include \
        -I$(QT)/mingw48_32/include/QtWidgets \
        -I$(QT)/mingw48_32/include/QtGui \
@@ -45,6 +43,8 @@ ORIG_DEP := $(DEP)
 DEP = @echo DEP $@; $(ORIG_DEP)
 
 endif
+
+export PATH:=$(PATH):$(QT)/mingw48_32/bin
 
 first: $(TARGET)
 
