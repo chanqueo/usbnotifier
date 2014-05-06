@@ -28,8 +28,7 @@ LDFLAGS = -Wl,-subsystem,windows -mthreads
 
 HDRS = $(sort $(shell $(FIND) . -name "*.h" | sed s_^./__))
 SRCS = $(sort $(shell $(FIND) . -name "*.c" -o -name "*.cpp"  | sed s_^./__))
-OBJS = $(filter-out $(NO_OBJS), $(basename $(SRCS)))
-OBJS := $(addsuffix .o, $(OBJS))
+OBJS = $(addsuffix .o, $(filter-out $(NO_OBJS), $(basename $(SRCS))))
 
 ifneq ($(V), 1)
 
