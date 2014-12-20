@@ -1,4 +1,4 @@
-TARGET = usbnotifier.exe
+TARGET = usbnotifier
 
 QT = /cygdrive/c/Qt/5.2.1
 
@@ -13,6 +13,8 @@ LIBS = -lglu32 -lopengl32 -lgdi32 -luser32 -lmingw32 -lqtmaind \
 
 DEFS = -DUNICODE -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB \
        -DQT_NEEDS_QMAIN
+
+NO_OBJS = mainwindow
 
 CC = mingw32-gcc
 CXX = mingw32-g++
@@ -45,19 +47,14 @@ endif
 
 export PATH:=$(PATH):$(QT)/mingw48_32/bin
 
-first: $(TARGET)
-
-run: $(TARGET)
-	@./$(TARGET)
+$(TARGET): $(OBJS)
+	$(LD) $(LDFLAGS) $^ $(LIBS) -o $@
 
 %.o: %.c Makefile
 	$(CC) -c $(CFLAGS) $(DEFS) $(INCS) $< -o $@
 
 %.o: %.cpp Makefile
 	$(CXX) -c $(CXXFLAGS) $(DEFS) $(INCS) $< -o $@
-
-$(TARGET): $(OBJS)
-	$(LD) $(LDFLAGS) $^ $(LIBS) -o $@
 
 clean:
 	$(RM) $(OBJS)
