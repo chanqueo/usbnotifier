@@ -13,19 +13,21 @@
  * @param  argc  Number of arguments.
  * @param  argv  Address of arguments.
  */
-int main(int argc, char * argv[])
+int main(int argc, char ** argv)
 {
     QApplication app(argc, argv);
-    QSystemTrayIcon icon;
+    QSystemTrayIcon sysTrayIcon;
     QMenu menu;
-    QAction action("&Quit");
+    QAction action("&Quit", NULL);
 
-    connect(action, SIGNAL(triggered()), qApp, SLOT(quit()));
-    menu.addAction(action);
+    QObject::connect(&action, &QAction::triggered, &app, &QApplication::quit);
+    menu.addAction(&action);
 
-    icon.setContextMenu(menu);
-    icon.setIcon(QIcon icon("bullet-connect-icon.png"));
-    icon.show();
+    QIcon icon("bullet-connect-icon.png");
+
+    sysTrayIcon.setContextMenu(&menu);
+    sysTrayIcon.setIcon(icon);
+    sysTrayIcon.show();
 
     return  app.exec();
  }
