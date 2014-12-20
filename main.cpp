@@ -4,6 +4,9 @@
 
 #include <QApplication>
 #include <QMainWindow>
+#include <QSystemTrayIcon>
+#include <QMenu>
+#include <QAction>
 
 /**
  * Application entry point.
@@ -13,9 +16,16 @@
 int main(int argc, char * argv[])
 {
     QApplication app(argc, argv);
-    QMainWindow mainWindow;
+    QSystemTrayIcon icon;
+    QMenu menu;
+    QAction action("&Quit");
 
-    mainWindow.show();
+    connect(action, SIGNAL(triggered()), qApp, SLOT(quit()));
+    menu.addAction(action);
+
+    icon.setContextMenu(menu);
+    icon.setIcon(QIcon icon("bullet-connect-icon.png"));
+    icon.show();
 
     return  app.exec();
  }
