@@ -2,7 +2,8 @@ TARGET = usbnotifier
 
 QT = /cygdrive/c/Qt/5.2.1
 
-INCS = -I$(QT)/mingw48_32/include \
+INCS = -I. \
+       -I$(QT)/mingw48_32/include \
        -I$(QT)/mingw48_32/include/QtWidgets \
        -I$(QT)/mingw48_32/include/QtGui \
        -I$(QT)/mingw48_32/include/QtCore \
