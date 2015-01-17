@@ -9,13 +9,11 @@ INCS = -I. \
        -I$(QT)/mingw48_32/include/QtCore \
        -I$(QT)/mingw48_32/mkspecs/win32-g++
 
-LIBS = -lglu32 -lopengl32 -lgdi32 -luser32 -lmingw32 -lqtmaind \
-       -L$(QT)/mingw48_32/lib -lQt5Widgetsd -lQt5Guid -lQt5Cored
+LDLIBS = -lglu32 -lopengl32 -lgdi32 -luser32 -lmingw32 -lqtmaind \
+         -L$(QT)/mingw48_32/lib -lQt5Widgetsd -lQt5Guid -lQt5Cored
 
 DEFS = -DUNICODE -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB \
        -DQT_NEEDS_QMAIN
-
-NO_OBJS = mainwindow
 
 CC = mingw32-gcc
 CXX = mingw32-g++
@@ -49,7 +47,7 @@ endif
 export PATH:=$(PATH):$(QT)/mingw48_32/bin
 
 $(TARGET): $(OBJS)
-	$(LD) $(LDFLAGS) $^ $(LIBS) -o $@
+	$(LD) $(LDFLAGS) $^ $(LDLIBS) -o $@
 
 %.o: %.c Makefile
 	$(CC) -c $(CFLAGS) $(DEFS) $(INCS) $< -o $@
