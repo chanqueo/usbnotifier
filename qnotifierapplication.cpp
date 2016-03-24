@@ -1,24 +1,24 @@
 #include "qnotifierapplication.h"
-#include "qnotifiericon.h"
 #include "qnotifierlistener.h"
+#include "qnotifierviewer.h"
 
 QNotifierApplication::QNotifierApplication(int argc, char ** argv) :
     QApplication(argc, argv)
 {
-    this->icon = new QNotifierIcon();
-    this->icon->show();
-
+    this->viewer = new QNotifierViewer();
     this->listener = new QNotifierListener();
 
     connect(this->listener, SIGNAL(DeviceConnected()),
-            this->icon, SLOT(OnDeviceConnected()));
+            this->viewer, SLOT(OnDeviceConnected()));
     connect(this->listener, SIGNAL(DeviceDisconnected()),
-            this->icon, SLOT(OnDeviceDisconnected()));
+            this->viewer, SLOT(OnDeviceDisconnected()));
 
-    this->listener->start();
+    this->viewer->Show();
+    this->listener->Start();
 }
 
 QNotifierApplication::~QNotifierApplication()
 {
-    delete this->icon;
+    delete this->listener;
+    delete this->viewer;
 }

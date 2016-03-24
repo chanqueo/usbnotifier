@@ -7,7 +7,7 @@ QNotifierListener::QNotifierListener() : QMainWindow()
 {
 }
 
-bool QNotifierListener::start()
+bool QNotifierListener::Start()
 {
     GUID usbGUID = {
         0x4d36e967, 0xe325, 0x11ce,

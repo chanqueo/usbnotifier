@@ -9,7 +9,7 @@ class QNotifierListener : public QMainWindow
 
 public:
     QNotifierListener();
-    bool start();
+    bool Start();
 
 signals:
     void DeviceConnected();

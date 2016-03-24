@@ -3,7 +3,7 @@
 
 #include <QApplication>
 
-class QNotifierIcon;
+class QNotifierViewer;
 class QNotifierListener;
 
 class QNotifierApplication : public QApplication
@@ -11,7 +11,7 @@ class QNotifierApplication : public QApplication
     Q_OBJECT
 
 private:
-    QNotifierIcon * icon;
+    QNotifierViewer * viewer;
     QNotifierListener * listener;
 
 public:
