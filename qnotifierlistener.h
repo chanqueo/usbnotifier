@@ -6,6 +6,7 @@
 class QNotifierListener : public QMainWindow
 {
     Q_OBJECT
+
 public:
     QNotifierListener();
     bool start();

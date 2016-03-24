@@ -1,4 +1,6 @@
 #include "qnotifierapplication.h"
+#include "qnotifiericon.h"
+#include "qnotifierlistener.h"
 
 QNotifierApplication::QNotifierApplication(int argc, char ** argv) :
     QApplication(argc, argv)
@@ -8,10 +10,10 @@ QNotifierApplication::QNotifierApplication(int argc, char ** argv) :
 
     this->listener = new QNotifierListener();
 
-    connect(this->listener, &QNotifierListener::DeviceConnected,
-            this->icon, &QNotifierIcon::OnDeviceConnected );
-    connect(this->listener, &QNotifierListener::DeviceDisconnected,
-            this->icon,  &QNotifierIcon::OnDeviceDisconnected );
+    connect(this->listener, SIGNAL(DeviceConnected()),
+            this->icon, SLOT(OnDeviceConnected()));
+    connect(this->listener, SIGNAL(DeviceDisconnected()),
+            this->icon, SLOT(OnDeviceDisconnected()));
 
     this->listener->start();
 }

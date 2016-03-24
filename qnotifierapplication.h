@@ -2,13 +2,15 @@
 #define __QNOTIFIERAPPLICATION_H__
 
 #include <QApplication>
-#include "qnotifiericon.h"
-#include "qnotifierlistener.h"
+
+class QNotifierIcon;
+class QNotifierListener;
 
 class QNotifierApplication : public QApplication
 {
-private:
     Q_OBJECT
+
+private:
     QNotifierIcon * icon;
     QNotifierListener * listener;
 

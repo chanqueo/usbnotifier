@@ -9,12 +9,17 @@ QNotifierIcon::QNotifierIcon() : QSystemTrayIcon()
     QAction * action = new QAction("&Quit", NULL);
     QMenu * menu = new QMenu();
 
-    QObject::connect(action, &QAction::triggered, this, &QApplication::quit);
+    connect(action, SIGNAL(triggered()), this, SLOT(OnActionTriggered()));
 
     menu->addAction(action);
 
     this->setContextMenu(menu);
     this->setIcon(QIcon("usb.ico"));
+}
+
+void QNotifierIcon::OnActionTriggered()
+{
+    QApplication::quit();
 }
 
 void QNotifierIcon::OnDeviceConnected()

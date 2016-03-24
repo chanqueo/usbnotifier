@@ -1,12 +1,15 @@
-FORMS += \
-    mainwindow.ui
+FORMS +=
 
 HEADERS += \
-    mainwindow.h \
-    main.h
+    qnotifierapplication.h \
+    qnotifiericon.h \
+    qnotifierlistener.h
 
 SOURCES += \
-    mainwindow.cpp \
-    main.cpp
+    main.cpp \
+    qnotifierapplication.cpp \
+    qnotifiericon.cpp \
+    qnotifierlistener.cpp
 
-QT += widgets
+QT += \
+    widgets
