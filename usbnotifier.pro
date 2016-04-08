@@ -13,3 +13,7 @@ SOURCES += \
 
 QT += \
     widgets
+
+OTHER_FILES += \
+    README.md \
+    usb.ico
