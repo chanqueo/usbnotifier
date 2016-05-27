@@ -8,10 +8,10 @@ QNotifierApplication::QNotifierApplication(int argc, char ** argv) :
     this->viewer = new QNotifierViewer();
     this->listener = new QNotifierListener();
 
-    connect(this->listener, SIGNAL(DeviceConnected()),
-            this->viewer, SLOT(OnDeviceConnected()));
-    connect(this->listener, SIGNAL(DeviceDisconnected()),
-            this->viewer, SLOT(OnDeviceDisconnected()));
+    connect(this->listener, SIGNAL(DeviceConnected(QString)),
+            this->viewer, SLOT(OnDeviceConnected(QString)));
+    connect(this->listener, SIGNAL(DeviceDisconnected(QString)),
+            this->viewer, SLOT(OnDeviceDisconnected(QString)));
 
     this->viewer->Show();
     this->listener->Start();

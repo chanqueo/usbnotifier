@@ -37,6 +37,7 @@ bool QNotifierListener::nativeEvent(const QByteArray & eventType,
     Q_UNUSED(eventType);
 
     MSG * msg = reinterpret_cast<MSG *>(message);
+    DEV_BROADCAST_PORT * port = reinterpret_cast<DEV_BROADCAST_PORT *>(msg->lParam);
 
     // Does this specific message interest us?
     if(msg->message == WM_DEVICECHANGE)
@@ -44,11 +45,19 @@ bool QNotifierListener::nativeEvent(const QByteArray & eventType,
         switch(msg->wParam)
         {
         case DBT_DEVICEARRIVAL:
-            emit this->DeviceConnected();
+#ifdef UNICODE
+            emit this->DeviceConnected(QString::fromStdWString(port->dbcp_name));
+#else
+            emit this->DeviceConnected(QString::fromStdString(port->dbcp_name));
+#endif
             break;
 
         case DBT_DEVICEREMOVECOMPLETE:
-            emit this->DeviceDisconnected();
+#ifdef UNICODE
+            emit this->DeviceDisconnected(QString::fromStdWString(port->dbcp_name));
+#else
+            emit this->DeviceDisconnected(QString::fromStdString(port->dbcp_name));
+#endif
             break;
         }
     }

@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/resources">
+        <file alias="viewer.ico">usb.ico</file>
+    </qresource>
+</RCC>

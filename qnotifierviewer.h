@@ -3,6 +3,12 @@
 
 #include <QObject>
 
+#ifndef UNICODE
+  typedef std::string String;
+#else
+  typedef std::wstring String;
+#endif
+
 class QNotifierApplication;
 class QSystemTrayIcon;
 
@@ -22,8 +28,8 @@ private slots:
     void OnActionTriggered();
 
 public slots:
-    void OnDeviceConnected();
-    void OnDeviceDisconnected();
+    void OnDeviceConnected(QString name);
+    void OnDeviceDisconnected(QString name);
 };
 
 #endif

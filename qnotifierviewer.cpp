@@ -17,7 +17,7 @@ QNotifierViewer::QNotifierViewer()
     menu->addAction(action);
 
     this->icon->setContextMenu(menu);
-    this->icon->setIcon(QIcon("usb.ico"));
+    this->icon->setIcon(QIcon(":/resources/viewer.ico"));
 }
 
 QNotifierViewer::~QNotifierViewer()
@@ -35,12 +35,12 @@ void QNotifierViewer::OnActionTriggered()
     QApplication::quit();
 }
 
-void QNotifierViewer::OnDeviceConnected()
+void QNotifierViewer::OnDeviceConnected(QString name)
 {
-    this->icon->showMessage("Hello", "Device connected");
+    this->icon->showMessage("", name + " is connected");
 }
 
-void QNotifierViewer::OnDeviceDisconnected()
+void QNotifierViewer::OnDeviceDisconnected(QString name)
 {
-    this->icon->showMessage("Hello", "Device disconnected");
+    this->icon->showMessage("", name + " is disconnected");
 }

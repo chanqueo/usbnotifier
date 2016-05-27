@@ -12,8 +12,8 @@ public:
     bool Start();
 
 signals:
-    void DeviceConnected();
-    void DeviceDisconnected();
+    void DeviceConnected(QString name);
+    void DeviceDisconnected(QString name);
 
 public slots:
 
