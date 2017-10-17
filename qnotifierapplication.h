@@ -3,20 +3,27 @@
 
 #include <QApplication>
 
-class QNotifierViewer;
 class QNotifierListener;
+class QNotifierSettings;
+class QNotifierViewer;
 
 class QNotifierApplication : public QApplication
 {
     Q_OBJECT
 
 private:
-    QNotifierViewer * viewer;
     QNotifierListener * listener;
+    QNotifierSettings * settings;
+    QNotifierViewer * viewer;
+
+private:
+    void LoadSettings();
+    void SaveSettings();
 
 public:
     QNotifierApplication(int argc, char ** argv);
     virtual ~QNotifierApplication();
+    QNotifierSettings * GetSettings();
 
 signals:
 

@@ -1,6 +1,9 @@
 #ifndef __QNOTIFIERLISTENER_H__
 #define __QNOTIFIERLISTENER_H__
 
+#include <windows.h>
+#include <dbt.h>
+
 #include <QMainWindow>
 
 class QNotifierListener : public QMainWindow
@@ -9,7 +12,7 @@ class QNotifierListener : public QMainWindow
 
 public:
     QNotifierListener();
-    bool Start();
+    bool Start(GUID guid);
 
 signals:
     void DeviceConnected(QString name);

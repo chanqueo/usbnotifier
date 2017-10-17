@@ -3,13 +3,7 @@
 
 #include <QObject>
 
-#ifndef UNICODE
-  typedef std::string String;
-#else
-  typedef std::wstring String;
-#endif
-
-class QNotifierApplication;
+class QNotifierSettings;
 class QSystemTrayIcon;
 
 class QNotifierViewer : public QObject
@@ -17,15 +11,17 @@ class QNotifierViewer : public QObject
     Q_OBJECT
 
 private:
+    QNotifierSettings * settings;
     QSystemTrayIcon * icon;
 
 public:
-    QNotifierViewer();
+    QNotifierViewer(QNotifierSettings * settings);
     virtual ~QNotifierViewer();
     void Show();
 
 private slots:
-    void OnActionTriggered();
+    void OnQuitActionTriggered();
+    void OnSettingsActionTriggered();
 
 public slots:
     void OnDeviceConnected(QString name);

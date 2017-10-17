@@ -1,25 +1,17 @@
 #include "qnotifierlistener.h"
 
-#include <windows.h>
-#include <dbt.h>
-
 QNotifierListener::QNotifierListener() : QMainWindow()
 {
 }
 
-bool QNotifierListener::Start()
+bool QNotifierListener::Start(GUID guid)
 {
-    GUID usbGUID = {
-        0x4d36e967, 0xe325, 0x11ce,
-        0xbf, 0xc1, 0x08, 0x00, 0x2b, 0xe1, 0x03, 0x18
-    };
-
     DEV_BROADCAST_DEVICEINTERFACE notificationFilter;
 
     memset(&notificationFilter, 0, sizeof(DEV_BROADCAST_DEVICEINTERFACE));
     notificationFilter.dbcc_size = sizeof(DEV_BROADCAST_DEVICEINTERFACE);
     notificationFilter.dbcc_devicetype = DBT_DEVTYP_DEVICEINTERFACE;
-    notificationFilter.dbcc_classguid = usbGUID;
+    notificationFilter.dbcc_classguid = guid;
 
     HDEVNOTIFY devNotify =
             RegisterDeviceNotification((HANDLE)this->winId(),

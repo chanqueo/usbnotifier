@@ -2,19 +2,20 @@
 #define QNOTIFIERSETTINGS_H
 
 #include <QDialog>
+
 #include <windows.h>
 #include <dbt.h>
 
-namespace Ui {
-class QNotifierSettings;
-}
+class QLineEdit;
+class QDialogButtonBox;
 
 class QNotifierSettings : public QDialog
 {
     Q_OBJECT
 
 private:
-    Ui::QNotifierSettings * ui;
+    QLineEdit * guidLineEdit;
+    QDialogButtonBox * buttonBox;
     QString guid;
 
 public:
@@ -30,6 +31,10 @@ public:
 
 signals:
     void NewGUID(GUID guid);
+
+private slots:
+    void OkButtonClicked();
+    void CancelButtonClicked();
 };
 
 #endif // QNOTIFIERSETTINGS_H

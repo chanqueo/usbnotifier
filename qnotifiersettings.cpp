@@ -1,16 +1,36 @@
 #include "qnotifiersettings.h"
-#include "ui_qnotifiersettings.h"
 
+#include <QApplication>
+#include <QDialogButtonBox>
+#include <QFormLayout>
+#include <QGroupBox>
+#include <QLabel>
+#include <QLineEdit>
 #include <QSettings>
+#include <QVBoxLayout>
 
-QNotifierSettings::QNotifierSettings(QWidget *parent) : QDialog(parent), ui(new Ui::QNotifierSettings)
+QNotifierSettings::QNotifierSettings(QWidget * parent) : QDialog(parent)
 {
-    ui->setupUi(this);
+    QVBoxLayout * layout = new QVBoxLayout();
+
+    QGroupBox * groupBox = new QGroupBox();
+    QFormLayout * formLayout = new QFormLayout();
+    this->guidLineEdit = new QLineEdit();
+    formLayout->addRow(new QLabel(tr("GUID:")), this->guidLineEdit);
+    groupBox->setLayout(formLayout);
+
+    this->buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+    connect(this->buttonBox, SIGNAL(accepted()), this, SLOT(OkButtonClicked()));
+    connect(this->buttonBox, SIGNAL(rejected()), this, SLOT(CancelButtonClicked()));
+
+    layout->addWidget(groupBox);
+    layout->addWidget(this->buttonBox);
+
+    this->setLayout(layout);
 }
 
 QNotifierSettings::~QNotifierSettings()
 {
-    delete ui;
 }
 
 void QNotifierSettings::Load()
@@ -18,7 +38,7 @@ void QNotifierSettings::Load()
     QString filename = QApplication::applicationDirPath().left(1) + QNotifierSettings::Filename;
     QSettings settings(filename, QSettings::NativeFormat);
     this->guid = settings.value("guid", this->DefaultGUID).toString();
-    this->ui->guidLineEdit->setPlaceholderText(this->guid);
+    this->guidLineEdit->setPlaceholderText(this->guid);
 }
 
 bool TextToGUID(QString text, GUID * guid)
@@ -38,19 +58,33 @@ bool TextToGUID(QString text, GUID * guid)
 
 void QNotifierSettings::Save()
 {
-    GUID guid;
     QString filename = QApplication::applicationDirPath().left(1) + QNotifierSettings::Filename;
     QSettings settings(filename, QSettings::NativeFormat);
-
-    if (this->guid != this->ui->guidLineEdit->placeholderText()) {
-        this->guid = this->ui->guidLineEdit->placeholderText();
-        settings.setValue("guid", this->guid);
-        if (TextToGUID(this->guid, &guid))
-            emit this->NewGUID(guid);
-    }
+    settings.setValue("guid", this->guid);
 }
 
 GUID QNotifierSettings::GetGUID()
 {
-    return TextToGUID(this->guid);
+    GUID guid;
+    TextToGUID(this->guid, &guid);
+    return guid;
+}
+
+void QNotifierSettings::OkButtonClicked()
+{
+    GUID guid;
+
+    if (this->guid != this->guidLineEdit->placeholderText()) {
+        this->guid = this->guidLineEdit->placeholderText();
+
+        if (TextToGUID(this->guid, &guid)) {
+            this->accept();
+            emit this->NewGUID(guid);
+        }
+    }
+}
+
+void QNotifierSettings::CancelButtonClicked()
+{
+
 }

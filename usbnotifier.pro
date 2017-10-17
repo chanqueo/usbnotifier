@@ -3,13 +3,15 @@ FORMS +=
 HEADERS += \
     qnotifierapplication.h \
     qnotifierviewer.h \
-    qnotifierlistener.h
+    qnotifierlistener.h \
+    qnotifiersettings.h
 
 SOURCES += \
     main.cpp \
     qnotifierapplication.cpp \
     qnotifierviewer.cpp \
-    qnotifierlistener.cpp
+    qnotifierlistener.cpp \
+    qnotifiersettings.cpp
 
 QT += \
     widgets
