@@ -18,8 +18,6 @@ signals:
     void DeviceConnected(QString name);
     void DeviceDisconnected(QString name);
 
-public slots:
-
 protected:
     virtual bool nativeEvent(const QByteArray & eventType,
                              void * message,

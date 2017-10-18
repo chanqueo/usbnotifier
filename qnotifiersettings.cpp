@@ -27,6 +27,7 @@ QNotifierSettings::QNotifierSettings(QWidget * parent) : QDialog(parent)
     layout->addWidget(this->buttonBox);
 
     this->setLayout(layout);
+    this->setWindowTitle(tr("Settings"));
 }
 
 QNotifierSettings::~QNotifierSettings()
@@ -38,18 +39,31 @@ void QNotifierSettings::Load()
     QString filename = QApplication::applicationDirPath().left(1) + QNotifierSettings::Filename;
     QSettings settings(filename, QSettings::NativeFormat);
     this->guid = settings.value("guid", this->DefaultGUID).toString();
-    this->guidLineEdit->setPlaceholderText(this->guid);
+    this->guidLineEdit->setText(this->guid);
 }
 
 bool TextToGUID(QString text, GUID * guid)
 {
-    QRegExp sep("[{-}]");
-    QStringList list = text.split(sep, QString::SkipEmptyParts);
-    if (list.size() == 4) {
-        guid->Data1 = list.at(0).toULong(NULL, 16);
-        guid->Data2 = list.at(1).toUShort(NULL, 16);
-        guid->Data3 = list.at(2).toUShort(NULL, 16);
-        unsigned long long data4 = list.at(3).toULongLong(NULL, 16);
+    bool ok;
+
+    //QRegExp sep("^\\{?([a-fA-F\\d]+)-([a-fA-F\\d]+)-([a-fA-F\\d]+)-([a-fA-F\\d]+)\\}?$");
+    QRegExp sep("([a-fA-F0-9]+)-([a-fA-F0-9]+)-([a-fA-F0-9]+)-([a-fA-F0-9]+)");
+    //QStringList list = text.split(sep);
+    sep.indexIn(text);
+    QStringList list = sep.capturedTexts();
+    if (list.size() == 5) {
+        guid->Data1 = list.at(1).toULong(&ok, 16);
+        if (!ok)
+            return false;
+        guid->Data2 = list.at(2).toUShort(&ok, 16);
+        if (!ok)
+            return false;
+        guid->Data3 = list.at(3).toUShort(&ok, 16);
+        if (!ok)
+            return false;
+        unsigned long long data4 = list.at(4).toULongLong(&ok, 16);
+        if (!ok)
+            return false;
         memcpy(guid->Data4, &data4, 8);
         return true;
     } else
@@ -74,17 +88,17 @@ void QNotifierSettings::OkButtonClicked()
 {
     GUID guid;
 
-    if (this->guid != this->guidLineEdit->placeholderText()) {
-        this->guid = this->guidLineEdit->placeholderText();
-
-        if (TextToGUID(this->guid, &guid)) {
-            this->accept();
+    if (TextToGUID(this->guidLineEdit->text(), &guid)) {
+        if (this->guid != this->guidLineEdit->text()) {
+            this->guid = this->guidLineEdit->text();
             emit this->NewGUID(guid);
+            this->Save();
         }
+        this->accept();
     }
 }
 
 void QNotifierSettings::CancelButtonClicked()
 {
-
+    this->reject();
 }

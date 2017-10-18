@@ -23,12 +23,6 @@ private:
 public:
     QNotifierApplication(int argc, char ** argv);
     virtual ~QNotifierApplication();
-    QNotifierSettings * GetSettings();
-
-signals:
-
-public slots:
-
 };
 
 #endif

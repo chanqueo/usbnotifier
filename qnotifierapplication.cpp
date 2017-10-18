@@ -25,8 +25,3 @@ QNotifierApplication::~QNotifierApplication()
     delete this->listener;
     delete this->viewer;
 }
-
-QNotifierSettings * QNotifierApplication::GetSettings()
-{
-    return this->settings;
-}

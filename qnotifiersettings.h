@@ -19,8 +19,8 @@ private:
     QString guid;
 
 public:
-    const QString Filename = ":/settings.ini";
-    const QString DefaultGUID = "{4d36e967-e325-11ce-bfc108002be10318}";
+    const QString Filename = tr(":/settings.ini");
+    const QString DefaultGUID = tr("{4d36e967-e325-11ce-bfc108002be10318}");
 
 public:
     explicit QNotifierSettings(QWidget *parent = 0);
